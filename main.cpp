@@ -1,37 +1,68 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
-
 using namespace std;
 
-int main() {
-    // Initialize random seed based on the current time
-    srand(static_cast<unsigned int>(time(0)));
+// Calculator class to handle operations
+class Calculator {
+public:
+    // Method for addition
+    double add(double num1, double num2) {
+        return num1 + num2;
+    }
 
-    // Generate a random number between 1 and 100
-    int numberToGuess = rand() % 100 + 1;
+    // Method for subtraction
+    double subtract(double num1, double num2) {
+        return num1 - num2;
+    }
 
-    int playerGuess = 0;
-    int numberOfTries = 0;
+    // Method for multiplication
+    double multiply(double num1, double num2) {
+        return num1 * num2;
+    }
 
-    cout << "Welcome to the Number Guessing Game!" << endl;
-    cout << "I have selected a random number between 1 and 100." << endl;
-    cout << "Can you guess what it is?" << endl;
-
-    // Loop until the player guesses the correct number
-    while (playerGuess != numberToGuess) {
-        cout << "Enter your guess: ";
-        cin >> playerGuess;
-        numberOfTries++;
-
-        // Check if the guess is correct, too high, or too low
-        if (playerGuess < numberToGuess) {
-            cout << "Too low! Try again." << endl;
-        } else if (playerGuess > numberToGuess) {
-            cout << "Too high! Try again." << endl;
+    // Method for division
+    double divide(double num1, double num2) {
+        if (num2 != 0) {
+            return num1 / num2;
         } else {
-            cout << "Congratulations! You guessed the number " << numberToGuess << " in " << numberOfTries << " tries." << endl;
+            cout << "Error! Division by zero." << endl;
+            return 0;
         }
+    }
+};
+
+int main() {
+    double num1, num2;
+    char operation;
+
+    // Create an object of Calculator class
+    Calculator calc;
+
+    // Ask the user to enter two numbers
+    cout << "Enter first number: ";
+    cin >> num1;
+    cout << "Enter second number: ";
+    cin >> num2;
+
+    // Ask the user to choose the operation
+    cout << "Choose operation (+, -, *, /): ";
+    cin >> operation;
+
+    // Perform the calculation based on the chosen operation
+    switch (operation) {
+        case '+':
+            cout << "Result: " << calc.add(num1, num2) << endl;
+            break;
+        case '-':
+            cout << "Result: " << calc.subtract(num1, num2) << endl;
+            break;
+        case '*':
+            cout << "Result: " << calc.multiply(num1, num2) << endl;
+            break;
+        case '/':
+            cout << "Result: " << calc.divide(num1, num2) << endl;
+            break;
+        default:
+            cout << "Invalid operation!" << endl;
     }
 
     return 0;
