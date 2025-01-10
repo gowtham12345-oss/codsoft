@@ -1,70 +1,90 @@
 #include <iostream>
+#include <vector>
+#include <string>
+
 using namespace std;
 
-// Calculator class to handle operations
-class Calculator {
+class TodoList {
+private:
+    vector<string> tasks;  // Vector to store tasks
+
 public:
-    // Method for addition
-    double add(double num1, double num2) {
-        return num1 + num2;
+    // Function to add a task
+    void addTask(const string& task) {
+        tasks.push_back(task);
+        cout << "Task added successfully!" << endl;
     }
 
-    // Method for subtraction
-    double subtract(double num1, double num2) {
-        return num1 - num2;
-    }
-
-    // Method for multiplication
-    double multiply(double num1, double num2) {
-        return num1 * num2;
-    }
-
-    // Method for division
-    double divide(double num1, double num2) {
-        if (num2 != 0) {
-            return num1 / num2;
+    // Function to delete a task by index
+    void deleteTask(int index) {
+        if (index < 0 || index >= tasks.size()) {
+            cout << "Invalid task number!" << endl;
         } else {
-            cout << "Error! Division by zero." << endl;
-            return 0;
+            tasks.erase(tasks.begin() + index);
+            cout << "Task deleted successfully!" << endl;
+        }
+    }
+
+    // Function to view all tasks
+    void viewTasks() const {
+        if (tasks.empty()) {
+            cout << "No tasks to display." << endl;
+        } else {
+            cout << "Here are the tasks:" << endl;
+            for (int i = 0; i < tasks.size(); ++i) {
+                cout << i + 1 << ". " << tasks[i] << endl;
+            }
         }
     }
 };
 
 int main() {
-    double num1, num2;
-    char operation;
+    TodoList todoList;
+    int choice;
+    string task;
+    int taskNumber;
 
-    // Create an object of Calculator class
-    Calculator calc;
+    do {
+        cout << "\n--- To-Do List Manager ---\n";
+        cout << "1. Add Task\n";
+        cout << "2. Delete Task\n";
+        cout << "3. View Tasks\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();  // To ignore the leftover newline character from the previous input
 
-    // Ask the user to enter two numbers
-    cout << "Enter first number: ";
-    cin >> num1;
-    cout << "Enter second number: ";
-    cin >> num2;
+        switch (choice) {
+            case 1:
+                // Add task
+                cout << "Enter the task to add: ";
+                getline(cin, task);  // To allow spaces in task
+                todoList.addTask(task);
+                break;
 
-    // Ask the user to choose the operation
-    cout << "Choose operation (+, -, *, /): ";
-    cin >> operation;
+            case 2:
+                // Delete task
+                todoList.viewTasks();  // Show tasks before asking to delete
+                cout << "Enter the task number to delete: ";
+                cin >> taskNumber;
+                todoList.deleteTask(taskNumber - 1);  // Subtract 1 for zero-based index
+                break;
 
-    // Perform the calculation based on the chosen operation
-    switch (operation) {
-        case '+':
-            cout << "Result: " << calc.add(num1, num2) << endl;
-            break;
-        case '-':
-            cout << "Result: " << calc.subtract(num1, num2) << endl;
-            break;
-        case '*':
-            cout << "Result: " << calc.multiply(num1, num2) << endl;
-            break;
-        case '/':
-            cout << "Result: " << calc.divide(num1, num2) << endl;
-            break;
-        default:
-            cout << "Invalid operation!" << endl;
-    }
+            case 3:
+                // View tasks
+                todoList.viewTasks();
+                break;
+
+            case 4:
+                // Exit
+                cout << "Exiting To-Do List Manager. Goodbye!" << endl;
+                break;
+
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+                break;
+        }
+    } while (choice != 4);
 
     return 0;
 }
-
